@@ -308,7 +308,7 @@ class PianoRoll:
                    show_bar: bool = True, show_velocity: bool = True, msg: str = ""):
         """
         Print the piano roll array on terminal for better visualization.
-        :param mode: RollPrintingMode.Normal only shows rows between the highest note and the lowest note; RollPrintingMode.Compact only shows rows which contains notes, RollPrintingMode.Full shows all 128 rows.
+        :param mode: RollPrintingMode.Normal only shows rows between the highest note and the lowest note; RollPrintingMode.Compact only shows rows which contains notes, RollPrintingMode.Full shows all 128 pitch rows.
         :param scale_shadow: whether to add background color for rows (keys) in the scale.
         :param show_bar: whether to add vertical line to indicate bars.
         :param show_velocity: whether to color the note according to its velocity, if True, notes with higher velocity will have stronger color.
