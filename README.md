@@ -29,7 +29,7 @@ The quality of the generated song depends on the quantity, diversity, and qualit
 7. After finishing processing the audio samples, the default database containing the meta data is located in:
    >   MacOS: `'~/Library/Application Support/ADSR/adsr_1_8.db3'`;
    > 
-   >   Windows: ``.
+   >   Windows: `'C:\Users\{USER_NAME}\AppData\Roaming\ADSR\adsr_1_8.db3'`.
 
    If you cannot find the database, you can open the setting window in ADSR Sample Manager and click "EXPORT DATABASE" to export the same database to a custom location.
    In the directory of this repo, open `config.py` and replace the value of `SAMPLE_DB_ADDRESS` to the path of your audio sample database.
