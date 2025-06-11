@@ -38,7 +38,7 @@ class GUILink(GUIWidget):
         assert t_pos is not None, '"to_pos" cannot be None.'
         color = self.link_comp.color if self.link_comp is not None else 'black'
         # self.link = self.graph.draw_arc(f_pos, t_pos, extent=5, start_angle=5, line_width=3, arc_color=color, style='bevel')
-        self.link = self.graph.draw_line(f_pos, t_pos, width=3, color=color, arrow='last')
+        self.link = self.graph.draw_line(f_pos, t_pos, width=3, color=color)
         self.bring_to_front()
 
     def bring_to_front(self):

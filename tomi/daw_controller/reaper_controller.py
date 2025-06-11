@@ -21,7 +21,7 @@ class REAPERController:
     @staticmethod
     def reaper_is_running():
         for proc in psutil.process_iter(['name']):
-            if proc.info['name'] == 'REAPER':
+            if proc.info['name'] in ('REAPER', 'reaper.exe'):
                 return True
         return False
 
@@ -95,7 +95,8 @@ class REAPERController:
                 t = self.add_track(self.project, track.name)
                 self.bind(track, t)
                 if track.track_type == TrackType.Midi:
-                    self.add_instrument(t, track.plugin)
+                    if track.plugin.plugin_name is not None:
+                        self.add_instrument(t, track.plugin)
                     for midi, midi_data in track_content.items():
                         self._add_midi_node(midi, midi_data, t)
                 elif track.track_type == TrackType.Audio:

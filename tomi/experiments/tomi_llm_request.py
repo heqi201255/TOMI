@@ -67,7 +67,7 @@ class TOMILLMRequest:
             incorrect_items, fix_prompt = self.validate_output(reply)
         try:
             if save_file_name is None:
-                save_file_name = f"{self.model}_{str(datetime.now())}.json"
+                save_file_name = f"{self.model}_{str(datetime.now())}.json".replace(":", "-").replace(" ", "_")
             with open(os.path.join(output_save_path, save_file_name), 'w') as f:
                 json.dump(reply, f, indent=4)
         except:

@@ -80,9 +80,8 @@ class TrackNode(NodeBase):
     def set_plugin(self, plugin_name: str = None, plugin_preset: str = None, plugin_format: PluginFormat = None):
         if self.track_type != TrackType.Midi:
             raise AddInstrumentOnAudioTrackError(f"Instrument is not allowed on {self.track_type.name} tracks.")
-        if plugin_name is None:
-            plugin_name = 'Serum'
-        self.plugin.set_plugin(plugin_name, plugin_preset, plugin_format)
+        if plugin_name is not None:
+            self.plugin.set_plugin(plugin_name, plugin_preset, plugin_format)
 
     def equals(self, other):
         return isinstance(other, TrackNode) and self.plugin == other.plugin and self.track_type == other.track_type and self.volume == other.volume and self.pan == other.pan
