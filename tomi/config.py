@@ -3,7 +3,7 @@ import os
 # The project directory of TOMI. Do not change.
 PROGRAM_DIR = file_path = os.path.abspath(__file__).rstrip("config.py")
 
-# TOMI V1 retrieve clips from your own local MIDI/Audio sample collections for music generation, you must have a MIDI sample dataset
+# TOMI retrieve clips from your own local MIDI/Audio sample collections for music generation, you must have a MIDI sample dataset
 # (all should be short clips, e.g., chord progressions, melody phrases) and process your MIDI dataset into an SQLite3 database via
 # "process_midi_samples.py".
 MIDI_DB_ADDRESS = os.path.expanduser(os.path.join(PROGRAM_DIR, "data/databases/tomi_db.db3"))

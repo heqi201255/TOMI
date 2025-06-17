@@ -62,7 +62,7 @@ class TOMISong:
             audio_type = AudioType.get_object_by_name(audio_type)
             fit_tempo = loop
             fit_key = loop
-            self.clip_nodes[clip_name] = self.factory.audio(audio_type, query, loop, (self.project.bpm-30, self.project.bpm+30), reverse=reverse, fit_key=fit_key, fit_tempo=fit_tempo, node_name=clip_name)
+            self.clip_nodes[clip_name] = self.factory.audio(audio_type, query, loop, (self.project.bpm-20, self.project.bpm+20), reverse=reverse, fit_key=fit_key, fit_tempo=fit_tempo, node_name=clip_name)
 
     def cast_transformations(self, transform_attrs: tuple):
         attrs = []

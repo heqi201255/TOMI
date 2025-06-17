@@ -473,7 +473,7 @@ class MusicGenBaseline(MusicGen):
                     structure_context = (f"\nFor now, you are generating the segment "
                                                f"between the {from_sec}th second and the {to_sec}th second, which corresponds to "
                                                f"the the {from_bar}th bar and the {to_bar}th bar regarding to the whole song, "
-                                               f"your generated segment includes {sections_stat} of the song structure.")
+                                               f"your output should include {sections_stat} of the song structure.")
                     att.text['description'] = initial_text_prompt + structure_context
                     print(f"Iteration prompt: {att.text['description']}")
                     # print(f"Attribute text: {att.text}\nAttribute wav: {att.wav}\nAttribute attributes: {att.attributes}\nText attributes: {att.text_attributes}\nWav attributes: {att.wav_attributes}\nJoint embed: {att.joint_embed}\nJoint embed attributes: {att.joint_embed_attributes}")

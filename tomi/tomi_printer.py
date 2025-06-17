@@ -1,4 +1,5 @@
 # Author: Qi He heqi201255@icloud.com 2024
+# I wrote this before I found [rich](https://github.com/Textualize/rich)
 
 from tqdm import tqdm
 import sys

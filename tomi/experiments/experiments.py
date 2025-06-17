@@ -64,7 +64,7 @@ def generate_standalone_llm_song(section_pattern: str, key: str, demo_id: int):
         print("Loading existing config")
         gen_config = json.load(open(os.path.join(dir_path, f'{song_name}_config.json'), "r"))
     else:
-        user_prompt = "Please make a {genre} instrumental song. Feel free to choose any instruments you like on your own. The tempo is about 120, mood is happy. Your generation should be completely provided, and should be close to real world music production, which means your result should contain about 20+ tracks, 40+ clips."
+        user_prompt = "Please make a {genre} instrumental song. Feel free to choose any instruments you like on your own. The tempo is about 120, mood is happy. Your generation should be completely provided, and should be close to real world music production, which means your result should contain about 20+ tracks, 50+ clips."
         user_prompt = f"{form_section_prompt(section_pattern)} {user_prompt}"
         gen_config = {
             "id": demo_id,
@@ -123,7 +123,6 @@ def generate_random_song(section_pattern: str, key: str, demo_id: int):
 
 
 if __name__ == "__main__":
-
     for sp in ('pattern1', 'pattern2', 'pattern3', 'pattern4'):
         for k in ('C', 'F', 'G', 'A#'):
             for i in range(2):

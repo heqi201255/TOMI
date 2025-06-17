@@ -4,7 +4,9 @@ from tomi import (Project, TOMIEngine, SongGenre, TrackType, MIDIType,
 import numpy as np
 from .tomi_llm_request import TOMILLMRequest
 from .llm_prompts import *
-from .experiment_section_patterns import pattern_total_bars, section_patterns
+from .experiment_section_patterns import pattern_total_bars, structure_and_sections_dict
+import os.path
+import json
 
 
 class StandaloneLLMRequest(TOMILLMRequest):
@@ -14,7 +16,7 @@ class StandaloneLLMRequest(TOMILLMRequest):
         assert self.section_pattern is not None, "'section_pattern' is required."
 
     def _update_defined_section_info(self, reply: dict):
-        reply['SectionPattern'] = section_patterns[self.section_pattern]
+        reply.update(structure_and_sections_dict(self.section_pattern))
         reply['TotalBars'] = pattern_total_bars(self.section_pattern)
         return reply
 
@@ -107,13 +109,22 @@ class StandaloneLLMSong:
     def __init__(self,
                  song_name: str = "standalone_llm_song",
                  song_genre: SongGenre = SongGenre.Pop,
-                 song_blocks: dict = None,
+                 song_blocks: dict | str = None,
                  key: Key = Key.C):
         self.song_genre = song_genre
         self.project = Project(song_name, key=key, genre=self.song_genre)
         self.engine = TOMIEngine(self.project)
-        self.song_blocks = StandaloneLLMRequest(section_pattern='pattern1').generate_song_blocks(self.song_genre) if song_blocks is None else song_blocks
-        self.section_pattern = self.song_blocks['SectionPattern']
+        if song_blocks is None:
+            self.song_blocks = StandaloneLLMRequest(section_pattern='pattern1').generate_song_blocks(self.song_genre)
+        elif isinstance(song_blocks, str):
+            if not os.path.exists(song_blocks):
+                raise FileNotFoundError(song_blocks)
+            self.song_blocks = json.load(open(song_blocks))
+        elif isinstance(song_blocks, dict):
+            self.song_blocks = song_blocks
+        else:
+            raise TypeError("song_blocks must be a str or dict")
+        self.section_pattern = self.song_blocks['Sections']
         self.total_bars = self.song_blocks['TotalBars']
         self.sections = [["Intro", "Intro", self.total_bars]]
         self.tracks = self.song_blocks['Tracks']
@@ -203,5 +214,5 @@ class StandaloneLLMSong:
 
 
 if __name__ == '__main__':
-    llm_gen = StandaloneLLMSong()
+    llm_gen = StandaloneLLMSong(song_blocks=None)
     llm_gen.gen(False, open_editor=True)

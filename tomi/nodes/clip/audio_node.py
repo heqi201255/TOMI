@@ -276,9 +276,9 @@ class AudioNode(ClipNode):
 
     def search_sample(self):
         founded_tag_ids = {}
-        queries = [*self.query, *self.split_by_upper_case_letters(self.audio_type.name), self.audio_type.name]
-        augmented_query = {t: tuple({t, t.lower(), t.upper(), t.lower().capitalize(), " ".join([x.lower().capitalize() for x in t.split()]), "-".join([x.lower().capitalize() for x in t.split("-")])}) for t in queries}
-        for tag, aug_tags in augmented_query.items():
+        keywords = [*self.query, *self.split_by_upper_case_letters(self.audio_type.name), self.audio_type.name]
+        augmented_keywords = {t: tuple({t, t.lower(), t.upper(), t.lower().capitalize(), " ".join([x.lower().capitalize() for x in t.split()]), "-".join([x.lower().capitalize() for x in t.split("-")])}) for t in keywords}
+        for tag, aug_tags in augmented_keywords.items():
             if len(aug_tags) == 1:
                 tag_query = f"SELECT id, name FROM tags WHERE name={aug_tags[0]};"
             else:
@@ -309,11 +309,11 @@ class AudioNode(ClipNode):
         return output
 
     def search_sample_backup(self):
-        queries = [*self.query, *self.split_by_upper_case_letters(self.audio_type.name), self.audio_type.name]
+        keywords = [*self.query, *self.split_by_upper_case_letters(self.audio_type.name), self.audio_type.name]
         maxlen = self.maxlen.to_seconds(self.project.bpm) * 1000 if self.maxlen else 9999999999
         minlen = self.minlen.to_seconds(self.project.bpm) * 1000 if self.minlen else 0
-        keyword_conditions = " + ".join([f"CASE WHEN name LIKE '%{kw}%' THEN 1 ELSE 0 END" for kw in queries])
-        where_conditions = " OR ".join([f"name LIKE '%{kw}%'" for kw in queries])
+        keyword_conditions = " + ".join([f"CASE WHEN name LIKE '%{kw}%' THEN 1 ELSE 0 END" for kw in keywords])
+        where_conditions = " OR ".join([f"name LIKE '%{kw}%'" for kw in keywords])
 
         query = f"""
                 SELECT ft.id, ft.path, ft.name, fs.path 
@@ -334,11 +334,11 @@ class AudioNode(ClipNode):
         return output
 
     def search_sample_backup2(self):
-        queries = [*self.query, *self.split_by_upper_case_letters(self.audio_type.name), self.audio_type.name]
+        keywords = [*self.query, *self.split_by_upper_case_letters(self.audio_type.name), self.audio_type.name]
         maxlen = self.maxlen.to_seconds(self.project.bpm) * 1000 if self.maxlen else 9999999999
         minlen = self.minlen.to_seconds(self.project.bpm) * 1000 if self.minlen else 0
-        keyword_conditions = " + ".join([f"CASE WHEN name LIKE '%{kw}%' THEN 1 ELSE 0 END" for kw in queries])
-        where_conditions = " OR ".join([f"name LIKE '%{kw}%'" for kw in queries])
+        keyword_conditions = " + ".join([f"CASE WHEN name LIKE '%{kw}%' THEN 1 ELSE 0 END" for kw in keywords])
+        where_conditions = " OR ".join([f"name LIKE '%{kw}%'" for kw in keywords])
         query = f"""
                 SELECT ft.id, ft.path, ft.name, fs.path 
                 FROM (

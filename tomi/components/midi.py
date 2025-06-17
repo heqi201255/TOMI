@@ -479,7 +479,7 @@ class MIDINoteList:
         nl.notes = notes
         return nl
 
-    def humanize(self, mode: tuple = (True, True), time_range: tuple = (-8, 12),
+    def humanize(self, humanize_vel: bool = True, humanize_shift: bool = True, time_range: tuple = (-8, 12),
                  vel_range: tuple = (50, 120), inplace: bool = False) -> 'MIDINoteList':
         '''
         Humanize the midi notes to make it sounds more natural by moving each note separately by a random number of ticks
@@ -494,9 +494,9 @@ class MIDINoteList:
         for note in notelist.notes:
             vel = random.randint(vel_range[0], vel_range[1])
             time = 1 / 192 * random.randint(time_range[0], time_range[1])
-            if mode[1]:
+            if humanize_vel:
                 note.velocity = vel
-            if mode[0]:
+            if humanize_shift:
                 note.start = note.start + time
                 if note.duration > BarStepTick(0, 3, time_signature=self.time_signature).to_seconds(bpm=notelist.bpm):
                     note.end -= BarStepTick(0, 1, time_signature=self.time_signature).to_seconds(bpm=notelist.bpm)
