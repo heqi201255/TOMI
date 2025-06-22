@@ -30,7 +30,7 @@ pip install -r requirements.txt
 
 ### Preparation
 1. Download REAPER from the [official website](https://www.reaper.fm/) and install REAPER.
-2. One great thing about REAPER is that you can automate and control it with code via [ReaScript API](https://www.reaper.fm/sdk/reascript/reascript.php).
+2. One great feature about REAPER is that you can automate and control it with code via [ReaScript API](https://www.reaper.fm/sdk/reascript/reascript.php).
    We use [reapy](https://github.com/RomeoDespres/reapy) (a pythonic wrapper of ReaScript) in Python. To set up for the first time, open REAPER, then open a
    terminal and run `python -c "import reapy; reapy.configure_reaper()"` to let REAPER know reapy is available, you only need to do this once. Then,
    restart REAPER. For more details, please refer to [reapy's documentation](https://python-reapy.readthedocs.io/en/latest/install_guide.html).
@@ -56,7 +56,7 @@ pip install -r requirements.txt
 ## Generate a Composition
 1. Open `config.py`, set `SAMPLE_DB_ADDRESS`, `REAPER_PATH`, default instrument and LLM API settings.
 2. To generate a song in REAPER, open REAPER first, then open `tomi/demos/generate.py`, you will see:
-   ```
+   ```python
    tomi_song = TOMISong(
        song_name="tomi_song",
        song_genre=SongGenre.Pop,
