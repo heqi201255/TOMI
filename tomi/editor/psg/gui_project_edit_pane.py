@@ -18,7 +18,7 @@ class GUIProjectEditPane(GUIWidget):
             sg.Col([[self.node_settings.get_layout()]], expand_x=True, expand_y=True),
         ], show_handle=False, orientation='h', expand_x=True, expand_y=True)
         self.project_layout = [
-            [sg.T('Song Arrangement'), self.project_arrangement.get_layout()],
+            [sg.T('Song Structure'), self.project_arrangement.get_layout()],
             [self.project_node_pane]
         ]
         self.pane_size = None

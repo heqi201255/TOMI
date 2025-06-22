@@ -1,4 +1,4 @@
-from tomi import (Project, ARRANGEMENT_FRONT_PADDING_BARS, MIDINode, AudioNode, BarStepTick, TrackType,
+from tomi import (Project, ARRANGEMENT_FRONT_PADDING_BARS, MIDINode, BarStepTick, TrackType,
                    ProjectVisualizer, printer, TrackNode, TimeSignature, LinkType)
 from . import REAPERController
 import pretty_midi
@@ -133,11 +133,14 @@ class TOMIEngine:
                 self.render_engine.update_midi_node(track_arrangement)
 
     def sync_project(self):
-        for node in self.project.transformation_nodes:
-            node.clear()
-            node.run()
-        self.sync_audio_nodes()
-        self.sync_midi_nodes()
+        if self.project.project_settings_updated:
+            self.run_reaper()
+        else:
+            for node in self.project.transformation_nodes:
+                node.clear()
+                node.run()
+            self.sync_audio_nodes()
+            self.sync_midi_nodes()
 
     def save_song_midi(self, save_path: str, split_tracks: bool = False):
         def midi_data_to_pretty_midi_inst(t: TrackNode, d: dict):

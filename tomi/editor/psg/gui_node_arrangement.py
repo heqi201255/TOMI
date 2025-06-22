@@ -9,9 +9,9 @@ class GUINodeArrangement(GUIWidget):
         self.base_frame_size = (1000, 1000)
         self.base_cell_size = (100, 50)
         self.default_font = ("IBM Plex Mono", 16, 'bold')
-        self.available_node_types = ['AllTransformations', 'AllClips', 'ProjectArrangement'] + [nt for nt in NodeType.option_list() if not nt.startswith('Effect')]
+        self.available_node_types = ['AllTransformations', 'AllClips', 'SongStructure'] + [nt for nt in NodeType.option_list() if not nt.startswith('Effect')]
         self.current_selected_row_type = 'Track'
-        self.current_selected_col_type = 'ProjectArrangement'
+        self.current_selected_col_type = 'SongStructure'
         self.arrangement_layout = sg.Col([], scrollable=True, vertical_scroll_only=False, expand_x=True, expand_y=True)
         self.table_canvas = None
         self.table_layout = OrderedDotdict()
@@ -158,7 +158,7 @@ class GUINodeArrangement(GUIWidget):
                             self.insert_to_cell(row_name, col_name, [[self.get_node_layout(node) for node in other_nodes]])
 
     def get_axis_nodes(self, axis_type: str):
-        if axis_type == 'ProjectArrangement':
+        if axis_type == 'SongStructure':
             return self.tomi_project.arrangement
         elif axis_type == 'AllTransformations':
             return self.tomi_project.transformation_nodes
@@ -220,14 +220,14 @@ class GUINodeArrangement(GUIWidget):
 
     def get_valid_axis_types(self, axis_type: str):
         exclude = [axis_type]
-        if axis_type == 'ProjectArrangement':
+        if axis_type == 'SongStructure':
             exclude.append('Section')
         elif axis_type == 'AllTransformations':
             exclude.extend(['GeneralTransform', 'DrumTransform', 'FxTransform', 'FillTransform'])
         elif axis_type == 'AllClips':
             exclude.extend(['MidiClip', 'AudioClip'])
         elif axis_type == 'Section':
-            exclude.append('ProjectArrangement')
+            exclude.append('SongStructure')
         elif axis_type == 'GeneralTransform':
             exclude.extend(['AllTransformations', 'DrumTransform', 'FxTransform', 'FillTransform'])
         elif axis_type == 'FxTransform':

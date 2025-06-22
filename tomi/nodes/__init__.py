@@ -10,5 +10,5 @@ from .transformation.drum_transform_node import DrumTransformNode
 from .transformation.fx_transform_node import FxTransformNode
 from .transformation.fill_transform_node import FillTransformNode
 from .mixing.track_node import TrackNode
-from .node_graph import NodeGraph, NodeLinks
+from .node_graph import NodeGraph, CompositionLinks
 from .node_factory import NodeFactory

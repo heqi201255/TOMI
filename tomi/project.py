@@ -43,6 +43,7 @@ class Project:
         self.node_graph = NodeGraph()
         self.databases = {}
         self.gui_configs = GUIContentConfigs(self)
+        self.project_settings_updated = False
         self.init_data_source()
 
     @property
@@ -65,6 +66,7 @@ class Project:
 
     def config_update(self, param_name: str, param_value):
         self.__setattr__(param_name, param_value)
+        self.project_settings_updated = True
 
     def run(self):
         self.node_graph.sync_nodes()
@@ -80,9 +82,12 @@ class Project:
                     dependent_l.insert(0, anode)
             clip_render_order.extend(dependent_l)
         for node in printer.progress(clip_render_order, desc="Running Clip Nodes", unit="nodes"):
+            node.clear()
             node.run()
         for node in printer.progress(self.transformation_nodes, desc='Running Transformation Nodes', unit="nodes"):
+            node.clear()
             node.run()
+        self.project_settings_updated = False
 
     @property
     def song_beat_length(self):

@@ -30,7 +30,7 @@ class TOMISong:
         self.tracks = self.song_blocks['Tracks']
         self.clips = self.song_blocks['Clips']
         self.transformations = self.song_blocks['Transformations']
-        self.nodelinks = self.song_blocks['Links']
+        self.composition_links = self.song_blocks['Links']
         self.factory = NodeFactory(self.project)
         self.gui = None
         self.track_nodes = {}
@@ -86,7 +86,7 @@ class TOMISong:
             transform_name, transform_type, is_faller = attrs
             self.transform_nodes[transform_name] = self.factory.fx_transform(is_faller=is_faller, node_name=transform_name)
 
-    def cast_nodelink(self, link: str):
+    def cast_composition_link(self, link: str):
         s, f, c, t = link.split('->')
         return self.section_nodes[s] >> self.transform_nodes[f] >> self.clip_nodes[c] >> self.track_nodes[t]
 
@@ -108,8 +108,8 @@ class TOMISong:
             self.cast_clips(c)
         for f in self.transformations:
             self.cast_transformations(f)
-        for nl in self.nodelinks:
-            self.project.node_graph.add(self.cast_nodelink(nl))
+        for nl in self.composition_links:
+            self.project.node_graph.add(self.cast_composition_link(nl))
         self.project.remove_unused_nodes()
         self.project.node_graph.print_link("Arrangement Structure")
         self.engine.run_reaper(stream_output=stream_output)

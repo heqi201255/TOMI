@@ -5,7 +5,7 @@ from functools import reduce
 from copy import copy
 
 
-class NodeLinks(OrderedDict):
+class CompositionLinks(OrderedDict):
     def __init__(self):
         super().__init__()
 
@@ -33,7 +33,7 @@ class NodeLinks(OrderedDict):
             return self
         assert all(hp in ['S', 'F', 'C', 'T'] for hp in order_pattern), "Invalid hierarchy pattern, element must be one of 'S':Section or 'F':Transformation or 'C':Clip or 'T':Track."
         links = self.get_links()
-        result = NodeLinks()
+        result = CompositionLinks()
         transformation_types = [NodeType.GeneralTransform, NodeType.DrumTransform, NodeType.FxTransform, NodeType.FillTransform]
         clip_types = [NodeType.AudioClip, NodeType.MidiClip]
         node_type_mapping = {'S': NodeType.Section, 'T': NodeType.Track}
@@ -55,7 +55,7 @@ class NodeLinks(OrderedDict):
         def _add(_link: OrderedDict, keys: tuple | list[NodeBase]):
             if keys:
                 if keys[0] not in _link:
-                    _link[keys[0]] = NodeLinks()
+                    _link[keys[0]] = CompositionLinks()
                 if len(keys) > 1:
                     if verify_hierarchy: keys[0].verify_child(keys[1])
                     _add(_link[keys[0]], keys[1:])
@@ -112,7 +112,7 @@ class NodeLinks(OrderedDict):
     
     def get_item_links(self, item):
         all_links = self.get_links()
-        result = NodeLinks()
+        result = CompositionLinks()
         get_multiple = isinstance(item, tuple)
         item = (item,) if not isinstance(item, tuple) else item
         for link in all_links:
@@ -127,11 +127,11 @@ class NodeLinks(OrderedDict):
 
 
 class NodeGraph:
-    arrangement_links: NodeLinks
+    arrangement_links: CompositionLinks
     def __init__(self, node_graph: 'NodeGraph' = None):
         self.registered_nodes = set()
         self.links = {
-            LinkType.ArrangementLink: NodeLinks()
+            LinkType.ArrangementLink: CompositionLinks()
         }
         if node_graph:
             self.registered_nodes = copy(node_graph.registered_nodes)
@@ -140,11 +140,11 @@ class NodeGraph:
     def print_link(self, title: str = "", indent_steps: int = 4):
         self.links[LinkType.ArrangementLink].print_link(title, indent_steps)
 
-    @better_property(value_type=NodeLinks)
+    @better_property(value_type=CompositionLinks)
     def arrangement_links(self):
         def fget(_self):
             return _self.links[LinkType.ArrangementLink]
-        def fset(_self, links: NodeLinks):
+        def fset(_self, links: CompositionLinks):
             assert all(NodeChainProcessor.get_link_type(l) == LinkType.ArrangementLink for l in links.get_links())
             _self.links[LinkType.ArrangementLink] = links
         return fget, fset
@@ -170,7 +170,7 @@ class NodeGraph:
                 node_direct[node.node_type][node] = node
         links = self.arrangement_links.get_links()
         new_links = [[node_direct[node.node_type][node] for node in link] for link in links]
-        result = NodeLinks()
+        result = CompositionLinks()
         for link in new_links:
             result.add_link(link)
         self.arrangement_links = result

@@ -28,3 +28,8 @@ results.
 8. `experiment_section_patterns.py`: This file contains the four defined song structure patterns for our experiments.
 9. `ils_metric.py`: This file contains our refined version of the ILS metric, which was first introduced in [here](https://github.com/ZZWaang/whole-song-gen).
 10. `simple_lofi_song.py`: This file provides a simple song arrangement template using TOMI data structure.
+
+**Note:** We have updated TOMI with a new transformation node type: [Fill Transform](../nodes/transformation/fill_transform_node.py). 
+Previously, we used the Fx Transform for placing drum fill clips at the end of a section. However, this approach lacked flexibility and 
+could lead to beat misalignments. To address this, we've introduced the Fill Transform, specifically designed for handling short drum 
+fills. It simplifies loop control for fill clips, for example, repeating a fill every 8 bars.

@@ -51,7 +51,6 @@ class PianoRoll:
         self.parent = parent
         self.midi_type = midi_type
         self.roll_note_velocity = None
-        self.in_scale_row_inds = None
         if isinstance(midi, MIDINoteList):
             # Parse the input MIDINoteList to a 2D array as the piano roll.
             self.roll, self.roll_note_velocity = self.render_piano_roll(midi)
@@ -304,7 +303,7 @@ class PianoRoll:
         process_velocity = np.repeat(process_velocity, quantize_multiplier, axis=1)
         return process_velocity
 
-    def print_roll(self, mode: RollPrintingMode = None, scale_shadow: bool = True,
+    def print_roll(self, mode: RollPrintingMode = None, scale_shadow: bool = False,
                    show_bar: bool = True, show_velocity: bool = True, msg: str = ""):
         """
         Print the piano roll array on terminal for better visualization.
@@ -318,8 +317,6 @@ class PianoRoll:
         if len(self.roll) == 0:
             printer.print(f"-------------------Empty Roll{f': {msg}' if msg else ''}-------------------")
             return
-        if scale_shadow and self.in_scale_row_inds is None:
-            self.in_scale_row_inds = self.get_scale_row_ids()
         header = [(f"**************************************************************** {msg} "
                    f"****************************************************************")] if msg else []
         bst_length = self.parent.ceil_bst
@@ -336,7 +333,7 @@ class PianoRoll:
         process_roll = self.get_full_width_roll()
         tr = ConsoleRollViz(roll=process_roll,
                             roll_color_strength_matrix=self.get_full_width_velocity() if show_velocity else None,
-                            hbg_colors={tuple(self.in_scale_row_inds): (100, 100, 100)},
+                            hbg_colors={tuple(self.get_scale_row_ids()): (100, 100, 100)} if scale_shadow else None,
                             mode=mode,
                             show_bars=show_bar,
                             reverse=True,

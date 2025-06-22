@@ -45,7 +45,7 @@ class GUINodeGraph(GUIWidget):
         position = (0, 0)
         v_gap = 100
         h_gap = 300
-        node_links = self.tomi_project.node_graph.arrangement_links.get_links()
+        composition_links = self.tomi_project.node_graph.arrangement_links.get_links()
         for node_type in ['section_nodes', 'transformation_nodes', 'clip_nodes', 'track_nodes']:
             node_list = self.host_editor.tomi_project.__getattribute__(node_type)
             if len(node_list) == 0:
@@ -56,13 +56,13 @@ class GUINodeGraph(GUIWidget):
                 position = (position[0], position[1] - v_gap)
                 self.graph_nodes[node] = g_node
             position = (position[0] + h_gap, 0)
-        colors = [rgb_to_hex(rgb) for rgb in get_random_rgb(num_output=len(node_links))]
-        self.link_comps = [LinkComp(i, colors[i]) for i in range(len(node_links))]
-        for link_i in range(len(node_links)):
-            link = node_links[link_i]
+        colors = [rgb_to_hex(rgb) for rgb in get_random_rgb(num_output=len(composition_links))]
+        self.link_comps = [LinkComp(i, colors[i]) for i in range(len(composition_links))]
+        for link_i in range(len(composition_links)):
+            link = composition_links[link_i]
             for node_i in range(len(link)-1):
                 GUILink(self).establish_link(from_node=self.graph_nodes[link[node_i]], to_node=self.graph_nodes[link[node_i+1]], link_comp=self.link_comps[link_i])
-        self.latest_link_id = len(node_links)
+        self.latest_link_id = len(composition_links)
         self.adjust_graph_size()
 
     def shift_nodes(self, shift_x, shift_y):

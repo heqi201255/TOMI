@@ -1,7 +1,7 @@
 import random
 import numpy as np
 from tomi import (get_random_rgb, OrderedDotdict, ARRANGEMENT_FRONT_PADDING_BARS, TrackType,
-                   BarStepTick, TrackNode, NodeType, RollBlock, NodeGraph, NodeLinks, ConsoleRollViz,
+                   BarStepTick, TrackNode, NodeType, RollBlock, NodeGraph, CompositionLinks, ConsoleRollViz,
                    RollSectionInfo, RollBlockGroupInfo, RollBlockInfo, RollPrintingMode, LinkType, printer)
 
 random.seed(2024)
@@ -104,7 +104,7 @@ class ProjectVisualizer:
         sampler_clips = []
         for tid, track_node in enumerate(self.project.track_nodes):
             track_node: TrackNode
-            links: NodeLinks = graph[track_node, LinkType.ArrangementLink].reorder(['S', 'F', 'C'])
+            links: CompositionLinks = graph[track_node, LinkType.ArrangementLink].reorder(['S', 'F', 'C'])
             blocks = {}
             for sec, v in links.items():
                 if sec.node_type != NodeType.Section:

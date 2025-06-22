@@ -29,6 +29,8 @@ class REAPERController:
     def open_reaper():
         if not REAPERController.reaper_is_running():
             os.popen(f"open '{REAPER_PATH}'")
+            return True
+        return False
 
     def clear_project(self, project: reapy.Project):
         with reapy.inside_reaper() if not self.stream_output else nullcontext():

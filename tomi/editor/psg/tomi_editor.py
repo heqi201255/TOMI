@@ -23,7 +23,7 @@ class TOMIEditor:
                 sg.Push(),
                 sg.Button('Open Reaper', enable_events=True, key='-OPENREAPER-'),
                 sg.Button('Sync Project', enable_events=True, key='-SYNCPROJECT-'),
-                sg.Button('Settings', enable_events=True, key='-SETTINGS-')
+                # sg.Button('Settings', enable_events=True, key='-SETTINGS-')
             ],
             [self.project_settings.get_layout()],
             [
@@ -51,10 +51,11 @@ class TOMIEditor:
                 break
             elif event == '-SONGSETTINGS-':
                 self.project_settings.configs_layout.update(visible=not self.project_settings.configs_layout.visible)
-            elif event == '-SETTINGS-':
-                sg.main_global_pysimplegui_settings()
+            # elif event == '-SETTINGS-':
+            #     sg.main_global_pysimplegui_settings()
             elif event == '-OPENREAPER-':
-                REAPERController.open_reaper()
+                if not REAPERController.open_reaper():
+                    sg.popup("REAPER is already open.")
             elif event == '-SYNCPROJECT-':
                 if self.tomi_engine is not None:
                     self.tomi_engine.sync_project()
