@@ -7,7 +7,7 @@ This is the code repository of the paper:
 > Qi He, Ziyu Wang, and Gus Xia. TOMI: Transforming and Organizing Music Ideas for Multi-Track Compositions with Full-Song Structure. ISMIR 2025.
 ---
 ## Introduction
-We propose the TOMI (Transforming and Organizing Music Ideas) paradigm for high-level music data representation.
+We propose the **TOMI** (**T**ransforming and **O**rganizing **M**usic **I**deas) paradigm for high-level music data representation.
 TOMI models a musical piece as a sparse, four-dimensional space defined by **clips** (short audio or MIDI segments),
 **sections** (temporal positions), **tracks** (instrument layers), and **transformations** (elaboration methods).
 We represent these concepts as nodes in our data structure and define **composition links**, each a quadruple of nodes, to specify a music clip (what) to be placed in a particular section (when) and on a specific track (where), undergoing certain transformations (how). Nodes are reusable across links, forming a structured representation of the complete composition.
@@ -19,7 +19,7 @@ Moreover, we integrate TOMI with the REAPER digital audio workstation (DAW) to a
 
 ## Installation
 Install Python 3.12 and Git, then run the following commands:
-```
+```shell
 ## Clone the repo
 git clone https://github.com/heqi201255/TOMI.git
 
