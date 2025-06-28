@@ -4,7 +4,7 @@
 
 This is the code repository of the paper:
 
-> Qi He, Ziyu Wang, and Gus Xia. TOMI: Transforming and Organizing Music Ideas for Multi-Track Compositions with Full-Song Structure. ISMIR 2025.
+> Qi He, Gus Xia, and Ziyu Wang. TOMI: Transforming and Organizing Music Ideas for Multi-Track Compositions with Full-Song Structure. ISMIR 2025.
 ---
 ## Introduction
 We propose the **TOMI** (**T**ransforming and **O**rganizing **M**usic **I**deas) paradigm for high-level music data representation.
