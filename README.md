@@ -1,6 +1,6 @@
 # TOMI
 
-[Demo](https://tomi-2025.github.io/) | [Paper]()
+[Demo](https://tomi-2025.github.io/) | [Paper](https://arxiv.org/abs/2506.23094)
 
 This is the code repository of the paper:
 
@@ -110,5 +110,14 @@ This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE
 If you find TOMI useful for your research, please consider citing:
 
 
-```
+```bibtex
+@misc{he2025tomitransformingorganizingmusic,
+      title={TOMI: Transforming and Organizing Music Ideas for Multi-Track Compositions with Full-Song Structure}, 
+      author={Qi He and Gus Xia and Ziyu Wang},
+      year={2025},
+      eprint={2506.23094},
+      archivePrefix={arXiv},
+      primaryClass={cs.SD},
+      url={https://arxiv.org/abs/2506.23094}, 
+}
 ```
