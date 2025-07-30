@@ -69,7 +69,7 @@ pip install -r requirements.txt
 For the `song_blocks` parameter in `TOMISong`, you can use the path of a previously generated JSON file; if None, it will generate a new song arrangement in TOMI data structure and save it as a JSON file in `tomi/model_outputs/TOMILLMRequest/`.
 In `TOMISONG.gen()` method, `stream_output` is used to just mimic the stream output style of text LLMs in REAPER, setting it to False can load all song data much faster; we also provide a basic user interface for visualizing the current TOMI data structure, if `open_editor` is set to True, the interface window will be open once the data is loaded into REAPER. For more details, please refer to the [TOMI Editor](tomi/editor/README.md) page.
 
-## MIDIProcessor
+### MIDIProcessor
 The `MIDIProcessor` class, implemented in `tomi/data_processors/midi_processor.py`, is designed to extract musical features from a given MIDI file. For more details, please refer to the [MIDIProcessor demo](tomi/demos/midi_stem_extraction_demo/midi_stem_extraction_demo.ipynb) notebook.
 
 ## Limitations
@@ -95,17 +95,14 @@ Transformations and MIDI notes are quantized to 16th-note resolution.
 
 Note: The codebase has not been fully tested yet. If you encounter issues/bugs or have questions, feel free to create an issue on our repository for assistance.
 
-# Acknowledgement
+## Acknowledgement
 Our digital audio workstation integration is realized through [REAPER](https://www.reaper.fm/) with their powerful [ReaScript API](https://www.reaper.fm/sdk/reascript/reascript.php).
 
 We build and manage the audio sample database using the versatile [ADSR Sample Manager](https://www.adsrsounds.com/product/software/adsr-sample-manager/).
 
-# License
-This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE) file for details.
-
 [//]: # (# Contributing)
 
-# Citation
+## Citation
 
 If you find TOMI useful for your research, please consider citing:
 
@@ -121,3 +118,9 @@ If you find TOMI useful for your research, please consider citing:
       url={https://arxiv.org/abs/2506.23094}, 
 }
 ```
+
+## Activity
+![Alt](https://repobeats.axiom.co/api/embed/5599f5910bc687fc38dbaf6b571027c19e1a32f0.svg "Repobeats analytics image")
+
+## License
+This project is licensed under the GNU GPLv3 License - see the [LICENSE](LICENSE) file for details.
