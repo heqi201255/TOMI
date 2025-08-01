@@ -375,7 +375,7 @@ class MIDINode(ClipNode):
         if self.genre_set:
             select_clause += f"JOIN TOMI_MIDI_File_Genres AS fg ON fg.file_id=m.id JOIN TOMI_Genres as g ON fg.genre_id=g.id "
         if self.midi_type == MIDIType.Melody:
-            select_clause += f"WHERE m.midi_type = '{MIDIType.Melody.name}';"
+            select_clause += f"WHERE m.midi_type = '{MIDIType.Melody.name}'"
         elif self.midi_type == MIDIType.Chord:
             select_clause += f"WHERE m.midi_type in ('{MIDIType.Composite.name}', '{MIDIType.Chord.name}')"
         else:

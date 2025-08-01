@@ -10,13 +10,14 @@ class TOMISong:
                  song_name: str = "tomi_song",
                  song_genre: SongGenre = SongGenre.Pop,
                  song_blocks: dict | str = None,
-                 key: Key | KeyMode = Key.C):
+                 key: Key | KeyMode = Key.C,
+                 user_prompt: str = None):
         self.song_genre = song_genre
         key = KeyMode(key) if isinstance(key, Key) else key
         self.project = Project(song_name, key=key.key, mode=key.mode, genre=self.song_genre)
         self.engine = TOMIEngine(self.project)
         if song_blocks is None:
-            self.song_blocks = TOMILLMRequest().generate_song_blocks(self.song_genre)
+            self.song_blocks = TOMILLMRequest().generate_song_blocks(self.song_genre, user_prompt=user_prompt)
         elif isinstance(song_blocks, str):
             if not os.path.exists(song_blocks):
                 raise FileNotFoundError(song_blocks)
