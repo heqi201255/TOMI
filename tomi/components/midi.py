@@ -161,16 +161,16 @@ class MIDINote:
     def is_between(self, bounds: tuple[float, float]) -> bool:
         return bounds[0] <= self.start <= bounds[1] and bounds[0] <= self.end <= bounds[1]
 
-    def crop(self, bounds: tuple[float, float]) -> Union['MIDINote', None]:
+    def crop(self, bounds: tuple[float, float], keep_partial_notes: bool = True) -> Union['MIDINote', None]:
         if self.end <= bounds[0] or self.start >= bounds[1]:
             return None
         if self.is_between(bounds):
             return MIDINote([self.pitch, self.start, self.end, self.velocity])
         if bounds[0] <= self.start < bounds[1]:
             return MIDINote([self.pitch, self.start, bounds[1], self.velocity])
-        if bounds[0] < self.end <= bounds[1]:
+        if bounds[0] < self.end <= bounds[1] and keep_partial_notes:
             return MIDINote([self.pitch, bounds[0], self.end, self.velocity])
-        if self.start <= bounds[0] and self.end >= bounds[1]:
+        if self.start <= bounds[0] and self.end >= bounds[1] and keep_partial_notes:
             return MIDINote([self.pitch, bounds[0], bounds[1], self.velocity])
         return None
 
@@ -215,6 +215,23 @@ class MIDINoteList:
 
     def __repr__(self):
         return self.__str__()
+
+    def crop(self, bounds: tuple[float | BarStepTick | None, float | BarStepTick | None], in_place: bool = False, keep_partial_notes: bool = False, align_to_left: bool = False) -> 'MIDINoteList':
+        new_notes = []
+        bounds = (bounds[0].to_seconds(self.bpm) if isinstance(bounds[0], BarStepTick) else 0 if bounds[0] is None else bounds[0],
+                  bounds[1].to_seconds(self.bpm) if isinstance(bounds[1], BarStepTick) else self.end_time if bounds[1] is None else bounds[1])
+        for note in self.notes:
+            new_note = note.crop(bounds, keep_partial_notes)
+            if new_note is not None:
+                new_notes.append(new_note)
+        if align_to_left and new_notes:
+            most_left = min(note.start for note in new_notes)
+            for note in new_notes:
+                note.time_offset(-most_left)
+        if in_place:
+            self.notes = new_notes
+            return self
+        return MIDINoteList(new_notes, self.bpm, self.time_signature)
 
     def print_notes(self):
         printer(f"MIDINoteList:\n{'\n'.join(str(n) for n in self.notes)}")

@@ -57,7 +57,7 @@ class MIDISampleDB:
     def commit(self):
         self.conn.commit()
 
-    def process_midi_folder(self, folder_path: str, overwrite: bool = False):
+    def process_midi_folder(self, folder_path: str, overwrite: bool = False, print_roll: bool = True):
         def _walk_dir(root_path: str):
             for file in os.listdir(root_path):
                 file_path = os.path.join(root_path, file)
@@ -76,13 +76,13 @@ class MIDISampleDB:
         loop = printer.progress(to_be_processed, desc="Processing MIDI files", unit="files")
         for midi_file in loop:
             loop.set_postfix({'path': midi_file})
-            self._process_midi_file(midi_file)
+            self._process_midi_file(midi_file, print_roll=print_roll)
         self.commit()
         loop.close()
         printer.print(f"Successfully loaded and processed {self.success_midi_count} midis, failed to load {self.bad_midi_count} midis.")
         self.bad_midi_count = self.success_midi_count = 0
 
-    def _process_midi_file(self, file_path: str):
+    def _process_midi_file(self, file_path: str, print_roll: bool = True):
         try:
             mp = MIDIProcessor(file_path, fit_beat=False)
         except InvalidMIDIFileError:
@@ -105,7 +105,7 @@ class MIDISampleDB:
         except:
             pass
         genres = ["".join(g.split('-')).lower() for g in genres]
-        self._insert_midi(mp, midi_file_name=file_name, print_roll=True, midi_genres=genres)
+        self._insert_midi(mp, midi_file_name=file_name, print_roll=print_roll, midi_genres=genres)
         self.success_midi_count += 1
 
     def __insert_and_relate_tag_with_file(self, insert_tag_query: str, insert_file_tag_query: str, tag_db: str, key_name: str):
